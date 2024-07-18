@@ -3,6 +3,7 @@ package com.example.content.Controller;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -18,7 +19,6 @@ public class ControllerV1 {
 	@Autowired
 	PolicyServiceImpl policyServiceImpl;
 
-	
 	@PostMapping(value = "/savePolicyType")
 	public PolicyResponse savePolicyType(@RequestParam int id, @RequestParam String name) {
 
@@ -46,4 +46,33 @@ public class ControllerV1 {
 
 	}
 
+	@GetMapping(value = "/getRecommendedPolicy")
+	public PolicyResponse getRecommendedPolicy(@RequestParam int age) {
+
+		PolicyResponse policyResponse = new PolicyResponse();
+
+		try {
+			policyResponse = policyServiceImpl.getRecommendedPolicy(age);
+		} catch (Exception e) {
+			logger.error("Excepion--......" + e);
+		}
+
+		return policyResponse;
+
+	}
+
+	@GetMapping(value = "/getConditionalPolicy")
+	public PolicyResponse getConditionalPolicy(@RequestParam int age, @RequestParam boolean isSmoker,
+			@RequestParam int income) {
+
+		PolicyResponse policyResponse = new PolicyResponse();
+
+		try {
+			policyResponse = policyServiceImpl.getConditionalPolicyPackage(age, isSmoker, income);
+		} catch (Exception e) {
+			logger.error("Excepion--......" + e);
+		}
+		return policyResponse;
+
+	}
 }
