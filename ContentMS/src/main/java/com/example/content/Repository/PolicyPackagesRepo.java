@@ -9,6 +9,6 @@ import com.example.content.Entities.PolicyPackages;
 @Repository
 public interface PolicyPackagesRepo extends CrudRepository<PolicyPackages, Integer> {
 
-	@Query(nativeQuery = true, value = "Select * from policy_packages p where p.packageName = :pkgName")
+	@Query(nativeQuery = true, value = "Select * from policy_packages p where p.package_Name = :pkgName")
 	public PolicyPackages getPolicyPackage(String pkgName);
 }

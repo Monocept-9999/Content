@@ -23,7 +23,7 @@ public class PolicyPackages {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
 
-	@Column(name = "packageName")
+	@Column(name = "package_Name")
 	private String packageName;
 
 	@Column(name = "lowerAgeLimit")

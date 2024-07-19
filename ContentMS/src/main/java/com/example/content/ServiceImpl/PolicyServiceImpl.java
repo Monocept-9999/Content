@@ -66,7 +66,8 @@ public class PolicyServiceImpl implements PolicyService {
 
 		if (!pkgName.isBlank() && !pkgName.isEmpty()) {
 
-			policyResponse.setData(policyPackagesRepo.getPolicyPackage(pkgName));
+			PolicyPackages pObj = policyPackagesRepo.getPolicyPackage(pkgName);
+			policyResponse.setData(pObj);
 
 		}
 
@@ -90,7 +91,6 @@ public class PolicyServiceImpl implements PolicyService {
 			pkgName = PolicyPackageEnum.PLATINUM.toString();
 		} else if (age > 40 && age <= 50) {
 			pkgName = PolicyPackageEnum.GOLD.toString();
-
 		} else if (age > 50 && age < 65) {
 			pkgName = PolicyPackageEnum.SILVER.toString();
 		} else {
