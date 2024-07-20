@@ -21,6 +21,39 @@ public class PolicyController {
         return new ResponseEntity<Policy>(policyService.createPolicy(policy), HttpStatus.CREATED);
     }
 
+    @GetMapping("/all-policies")
+    public ResponseEntity<List<Policy>> all_Policies()
+    {
+        List<Policy> policyList = policyService.get_All_Policy();
+        if(!policyList.isEmpty())
+        {
+            return new ResponseEntity<>(policyList, HttpStatus.OK);
+        }
+            return new ResponseEntity<>( HttpStatus.NOT_FOUND);
+    }
+
+
+    @GetMapping("/get-policy/{id}")
+    public Policy getPolicy_ById(@PathVariable Long id)
+    {
+        return policyService.get_Policy_byID(id);
+    }
+
+    @PutMapping("/update-policy/{id}")
+    public ResponseEntity<Policy> update_Policy( @PathVariable Long id,@RequestBody Policy policy)
+    {
+        Policy temp=policyService.updatePolicy(id,policy);
+        if(temp!=null)
+        {
+            return new ResponseEntity<>(temp, HttpStatus.OK);
+        }
+        else
+        {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+
     @DeleteMapping("/delete-policy")
     public ResponseEntity<String> deletePolicy(@PathVariable("policyId") Long policyId){
         return new ResponseEntity<String>(policyService.deletePolicy(policyId), HttpStatus.OK);
