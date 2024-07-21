@@ -6,6 +6,6 @@ import org.springframework.stereotype.Repository;
 import com.example.content.Entities.PolicyMetaData;
 
 @Repository
-public interface PolicyMetaTypeRepo extends CrudRepository<PolicyMetaData, Integer> {
+public interface PolicyMetaTypeRepo extends CrudRepository<PolicyMetaData,Long> {
 
 }

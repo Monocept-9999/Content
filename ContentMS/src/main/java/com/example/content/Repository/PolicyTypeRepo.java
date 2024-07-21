@@ -6,7 +6,7 @@ import org.springframework.stereotype.Repository;
 import com.example.content.Entities.PolicyType;
 
 @Repository
-public interface PolicyTypeRepo extends CrudRepository<PolicyType, Integer>{
+public interface PolicyTypeRepo extends CrudRepository<PolicyType,Long>{
 	
 	
 
