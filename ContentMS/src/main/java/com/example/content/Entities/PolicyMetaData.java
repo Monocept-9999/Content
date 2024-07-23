@@ -9,6 +9,8 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.PreUpdate;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -23,15 +25,19 @@ public class PolicyMetaData {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int id;
+	private int  policyId;
 
-	private String policyId;
+	@NotBlank(message = "Policy Number is mandatory")
+	@Size(min = 2, max = 50, message = "Policy Number should be between 2 and 50 characters")
+	private String policyNumber;
 
 	private int amount;
 
 	private int tenure;
 
 	private LocalDateTime createdAt;
+
+	private LocalDateTime endDate;
 
 	private LocalDateTime updatedAt;
 
