@@ -1,24 +1,22 @@
 package com.example.content.ServiceImpl;
 
-import com.example.content.Entities.Policy;
-import com.example.content.Entities.PolicyStatus;
+import com.example.content.Entities.*;
+import com.example.content.Repository.PolicyMetaTypeRepo;
 import com.example.content.Repository.PolicyRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import com.example.content.Beans.PolicyResponse;
-import com.example.content.Entities.PolicyPackages;
-import com.example.content.Entities.PolicyType;
 import com.example.content.Enums.PolicyPackageEnum;
 import com.example.content.Repository.PolicyPackagesRepo;
 import com.example.content.Repository.PolicyTypeRepo;
 import com.example.content.Service.PolicyService;
 
-import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class PolicyServiceImpl implements PolicyService {
@@ -30,6 +28,9 @@ public class PolicyServiceImpl implements PolicyService {
 
 	@Autowired
 	PolicyPackagesRepo policyPackagesRepo;
+
+	@Autowired
+	PolicyMetaTypeRepo policyMetaTypeRepo;
 
 	private PolicyRepository policyRepository;
 
@@ -48,16 +49,6 @@ public class PolicyServiceImpl implements PolicyService {
 		return policyRepository.findAllByStatus(PolicyStatus.ACTIVE);
 	}
 
-	@Override
-	public Policy createPolicy(Policy policy) {
-		return policyRepository.save(policy);
-	}
-
-	@Override
-	public String deletePolicy(Long policyId) {
-		policyRepository.deleteById(policyId);
-		return "Policy Deleted Successfully with ID : " + policyId;
-	}
 
 	/// this method will update policy status every day at midnight
 /*	@Scheduled(cron = "0 0 0 * * ?") // Runs every day at midnight
@@ -184,5 +175,84 @@ public class PolicyServiceImpl implements PolicyService {
 		return policyResponse;
 
 	}
+
+
+
+
+	@Override
+	public PolicyMetaData createPolicy(PolicyMetaData policy) {
+		return policyMetaTypeRepo.save(policy);
+	}
+
+
+
+	@Override
+	public String deletePolicy(int id) {
+		policyMetaTypeRepo.deleteById(id);
+		return "Policy Deleted Successfully";
+	}
+
+
+	@Override
+	public List<PolicyMetaData> getAllPolicies() {
+		Iterable<PolicyMetaData> data = policyMetaTypeRepo.findAll();
+		List<PolicyMetaData> policies=new ArrayList<>();
+		data.forEach(policies::add);
+		return policies;
+	}
+
+	@Override
+	public Optional<PolicyMetaData> getPolicyById(Long id) {
+		return Optional.empty();
+	}
+
+
+	@Override
+	public Optional<PolicyMetaData> getPolicyById(int id) {
+		return policyMetaTypeRepo.findById(id);
+	}
+
+
+
+	@Override
+	public PolicyMetaData update_policy(int id, PolicyMetaData policy) {
+		Optional<PolicyMetaData> temp=policyMetaTypeRepo.findById(id);
+		if(temp.isPresent())
+		{
+			PolicyMetaData existingPolicy=temp.get();
+			existingPolicy.setPolicyNumber(policy.getPolicyNumber());
+			existingPolicy.setCreatedAt(policy.getCreatedAt());
+			existingPolicy.setEndDate(policy.getEndDate());
+			return policyMetaTypeRepo.save(existingPolicy);
+		}
+		else
+		{
+			return null;
+		}
+	}
+
+
+
+	@Override
+	public float check_EMI(int id) {
+		Optional<PolicyMetaData>data =policyMetaTypeRepo.findById(id);
+
+		if(data.isPresent())
+		{
+			PolicyMetaData policy = data.get();
+			float amount = policy. getAmount();
+			int year= policy.getTenure();
+
+			float emi =amount/(year*12);
+			return emi;
+		}
+		else
+		{
+			return 0;
+		}
+	}
+
+
+
 
 }
