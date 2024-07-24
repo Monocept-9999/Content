@@ -179,6 +179,9 @@ public class PolicyServiceImpl implements PolicyService {
 
 
 
+
+
+
 	@Override
 	public PolicyMetaData createPolicy(PolicyMetaData policy) {
 		return policyMetaTypeRepo.save(policy);
@@ -186,11 +189,6 @@ public class PolicyServiceImpl implements PolicyService {
 
 
 
-	@Override
-	public String deletePolicy(int id) {
-		policyMetaTypeRepo.deleteById(id);
-		return "Policy Deleted Successfully";
-	}
 
 
 	@Override
@@ -201,15 +199,23 @@ public class PolicyServiceImpl implements PolicyService {
 		return policies;
 	}
 
-	@Override
-	public Optional<PolicyMetaData> getPolicyById(Long id) {
-		return Optional.empty();
-	}
+//	@Override
+//	public Optional<PolicyMetaData> getPolicyById(Long id) {
+//		return Optional.empty();
+//	}
 
 
 	@Override
 	public Optional<PolicyMetaData> getPolicyById(int id) {
-		return policyMetaTypeRepo.findById(id);
+
+		if(policyMetaTypeRepo.findById(id).isPresent())
+		{
+			return policyMetaTypeRepo.findById(id);
+		}
+		else
+		{
+			return Optional.empty();
+		}
 	}
 
 
@@ -232,25 +238,38 @@ public class PolicyServiceImpl implements PolicyService {
 	}
 
 
-
 	@Override
-	public float check_EMI(int id) {
-		Optional<PolicyMetaData>data =policyMetaTypeRepo.findById(id);
-
-		if(data.isPresent())
+	public String deletePolicy(int id) {
+		if(policyMetaTypeRepo.findById(id).isPresent())
 		{
-			PolicyMetaData policy = data.get();
-			float amount = policy. getAmount();
-			int year= policy.getTenure();
-
-			float emi =amount/(year*12);
-			return emi;
+		policyMetaTypeRepo.deleteById(id);
+		return "Policy Deleted Successfully";
 		}
 		else
 		{
-			return 0;
+			return "Policy Not Found";
 		}
 	}
+
+//
+//	@Override
+//	public float check_EMI(int id) {
+//		Optional<PolicyMetaData>data =policyMetaTypeRepo.findById(id);
+//
+//		if(data.isPresent())
+//		{
+//			PolicyMetaData policy = data.get();
+//			float amount = policy. getAmount();
+//			int year= policy.getTenure();
+//
+//			float emi =amount/(year*12);
+//			return emi;
+//		}
+//		else
+//		{
+//			return 0;
+//		}
+//	}
 
 
 

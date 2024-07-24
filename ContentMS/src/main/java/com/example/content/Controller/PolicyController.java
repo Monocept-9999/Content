@@ -31,14 +31,16 @@ public class PolicyController {
         return new ResponseEntity<List<Policy>>(policyService.getExpiredPolicies(), HttpStatus.OK);
     }
 
-    @PostMapping("/create-policy")
-    public  ResponseEntity<Policy> createPolicy(@RequestBody Policy  policy){
-        System.out.println("hellloooo");
-        return new ResponseEntity<Policy>(policyService.createPolicy(policy), HttpStatus.CREATED);
-    }
+//
+//    @PostMapping("/create-policy")
+//    public  ResponseEntity<Policy> createPolicy(@RequestBody Policy  policy){
+//        System.out.println("hellloooo");
+//        return new ResponseEntity<Policy>(policyService.createPolicy(policy), HttpStatus.CREATED);
+//    }
+//
+//    @DeleteMapping("/delete-policy/{policyId}")
+//    public ResponseEntity<String> deletePolicy(@PathVariable("policyId") Long policyId){
+//        return new ResponseEntity<String>(policyService.deletePolicy(policyId), HttpStatus.OK);
+//    }
 
-    @DeleteMapping("/delete-policy/{policyId}")
-    public ResponseEntity<String> deletePolicy(@PathVariable("policyId") Long policyId){
-        return new ResponseEntity<String>(policyService.deletePolicy(policyId), HttpStatus.OK);
-    }
 }

@@ -1,5 +1,6 @@
 package com.example.content.Controller;
 
+import com.example.content.Entities.Policy;
 import com.example.content.Entities.PolicyMetaData;
 import com.example.content.Service.PolicyService;
 import com.example.content.ServiceImpl.PolicyServiceImpl;
@@ -11,10 +12,10 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
 
+
 @RestController
 @RequestMapping("/policy")
 public class policy_Crud {
-
 
     @Autowired
     PolicyServiceImpl policyServiceImpl;
@@ -44,19 +45,29 @@ public class policy_Crud {
     public ResponseEntity<Optional<PolicyMetaData>>get_Policy_ById(@PathVariable int id)
     {
         Optional<PolicyMetaData> policies = policyService.getPolicyById(id);
-        if (policies.isPresent())
-            return  new ResponseEntity<>(policies,HttpStatus.OK);
-        else
+        if(policies.isPresent())
+            return new ResponseEntity<>(policies, HttpStatus.OK);
+        else {
+            System.out.println("Id is not present in the database please recheck once");
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-
+        }
     }
+
+
+
 
     // Updating a policy in the database with the help of id
     @PutMapping("/update_policy/{id}")
     public ResponseEntity<PolicyMetaData>update_policy(@PathVariable int id, @RequestBody PolicyMetaData policy)
     {
-        policyService.update_policy(id, policy);
+        PolicyMetaData data= policyService.update_policy(id, policy);
+        if(data!=null)
         return new ResponseEntity<>(policy, HttpStatus.OK);
+        else
+        {
+            System.out.println("Id is not present in the database please recheck once");
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 
 
@@ -66,11 +77,10 @@ public class policy_Crud {
         return new ResponseEntity<String>(policyService.deletePolicy(id), HttpStatus.OK);
     }
 
-
-    @GetMapping("/get_emi/{id}")
-    public float get_Emi(@PathVariable int id)
-    {
-        return policyService.check_EMI(id);
-    }
+//    @GetMapping("/get_emi/{id}")
+//    public float get_Emi(@PathVariable int id)
+//    {
+//        return policyService.check_EMI(id);
+//    }
 
 }
