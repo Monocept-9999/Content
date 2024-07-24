@@ -22,17 +22,18 @@ public interface PolicyService {
 	List<Policy> getActivePolicies();
 
 
+
+	// Made by Pratyush
 	PolicyMetaData createPolicy(PolicyMetaData policy);
 
 	String deletePolicy(int id);
 
 	List<PolicyMetaData> getAllPolicies();
 
-	Optional<PolicyMetaData> getPolicyById(Long id);
-
 	PolicyMetaData update_policy(int id, PolicyMetaData policy);
 
 	Optional<PolicyMetaData> getPolicyById(int id);
 
-	float check_EMI(int id);
+//	float check_EMI(int id);
+
 }
