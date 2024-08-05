@@ -1,6 +1,4 @@
 package com.example.content.Controller;
-
-import com.example.content.Entities.Policy;
 import com.example.content.Entities.PolicyMetaData;
 import com.example.content.Service.PolicyService;
 import com.example.content.ServiceImpl.PolicyServiceImpl;
@@ -8,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 import java.util.Optional;
 
@@ -16,9 +13,6 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/policy")
 public class policy_Crud {
-
-    @Autowired
-    PolicyServiceImpl policyServiceImpl;
     @Autowired
     private PolicyService policyService;
 
@@ -71,16 +65,17 @@ public class policy_Crud {
     }
 
 
-    // Delete a policy in the database with the help of id
+    // Delete a policy from the database with the help of id
     @DeleteMapping("/delete_policy/{id}")
     public ResponseEntity<String> deletePolicy(@PathVariable int id ){
         return new ResponseEntity<String>(policyService.deletePolicy(id), HttpStatus.OK);
     }
 
-//    @GetMapping("/get_emi/{id}")
-//    public float get_Emi(@PathVariable int id)
-//    {
-//        return policyService.check_EMI(id);
-//    }
+    // Calculating Emi as per the policy premium and tenure
+    @GetMapping("/get_emi/{id}")
+    public float get_Emi(@PathVariable int id)
+    {
+        return policyService.check_EMI(id);
+    }
 
 }
