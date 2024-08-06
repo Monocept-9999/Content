@@ -251,25 +251,25 @@ public class PolicyServiceImpl implements PolicyService {
 		}
 	}
 
-//
-//	@Override
-//	public float check_EMI(int id) {
-//		Optional<PolicyMetaData>data =policyMetaTypeRepo.findById(id);
-//
-//		if(data.isPresent())
-//		{
-//			PolicyMetaData policy = data.get();
-//			float amount = policy. getAmount();
-//			int year= policy.getTenure();
-//
-//			float emi =amount/(year*12);
-//			return emi;
-//		}
-//		else
-//		{
-//			return 0;
-//		}
-//	}
+
+	@Override
+	public float check_EMI(int id) {
+		Optional<PolicyMetaData>data =policyMetaTypeRepo.findById(id);
+
+		if(data.isPresent())
+		{
+			PolicyMetaData policy = data.get();
+			float amount = policy. getAmount();
+			int year= policy.getTenure();
+
+			float emi =amount/(year*2);
+			return emi;
+		}
+		else
+		{
+			return 0;
+		}
+	}
 
 
 
