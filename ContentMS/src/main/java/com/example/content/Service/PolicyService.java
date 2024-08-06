@@ -34,6 +34,6 @@ public interface PolicyService {
 
 	Optional<PolicyMetaData> getPolicyById(int id);
 
-//	float check_EMI(int id);
+	float check_EMI(int id);
 
 }

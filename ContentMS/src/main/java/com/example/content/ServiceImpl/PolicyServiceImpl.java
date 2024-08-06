@@ -49,22 +49,18 @@ public class PolicyServiceImpl implements PolicyService {
 		return policyRepository.findAllByStatus(PolicyStatus.ACTIVE);
 	}
 
-
 	/// this method will update policy status every day at midnight
-/*	@Scheduled(cron = "0 0 0 * * ?") // Runs every day at midnight
-	public void updatePolicyStatuses() {
-		List<Policy> policies = policyRepository.findAll();
-		LocalDate today = LocalDate.now();
-
-		for (Policy policy : policies) {
-			if (policy.getEndDate().isBefore(today)) {
-				policy.setStatus(PolicyStatus.EXPIRED);
-			} else if (policy.getEndDate().isEqual(today.plusDays(30))) {
-				policy.setStatus(PolicyStatus.EXPIRING_SOON);
-			} else {
-				policy.setStatus(PolicyStatus.ACTIVE);
-			}
-		}*/
+	/*
+	 * @Scheduled(cron = "0 0 0 * * ?") // Runs every day at midnight public void
+	 * updatePolicyStatuses() { List<Policy> policies = policyRepository.findAll();
+	 * LocalDate today = LocalDate.now();
+	 * 
+	 * for (Policy policy : policies) { if (policy.getEndDate().isBefore(today)) {
+	 * policy.setStatus(PolicyStatus.EXPIRED); } else if
+	 * (policy.getEndDate().isEqual(today.plusDays(30))) {
+	 * policy.setStatus(PolicyStatus.EXPIRING_SOON); } else {
+	 * policy.setStatus(PolicyStatus.ACTIVE); } }
+	 */
 
 //		policyRepository.saveAll(policies);
 
@@ -176,25 +172,15 @@ public class PolicyServiceImpl implements PolicyService {
 
 	}
 
-
-
-
-
-
-
 	@Override
 	public PolicyMetaData createPolicy(PolicyMetaData policy) {
 		return policyMetaTypeRepo.save(policy);
 	}
 
-
-
-
-
 	@Override
 	public List<PolicyMetaData> getAllPolicies() {
 		Iterable<PolicyMetaData> data = policyMetaTypeRepo.findAll();
-		List<PolicyMetaData> policies=new ArrayList<>();
+		List<PolicyMetaData> policies = new ArrayList<>();
 		data.forEach(policies::add);
 		return policies;
 	}
@@ -204,74 +190,54 @@ public class PolicyServiceImpl implements PolicyService {
 //		return Optional.empty();
 //	}
 
-
 	@Override
 	public Optional<PolicyMetaData> getPolicyById(int id) {
 
-		if(policyMetaTypeRepo.findById(id).isPresent())
-		{
+		if (policyMetaTypeRepo.findById(id).isPresent()) {
 			return policyMetaTypeRepo.findById(id);
-		}
-		else
-		{
+		} else {
 			return Optional.empty();
 		}
 	}
 
-
-
 	@Override
 	public PolicyMetaData update_policy(int id, PolicyMetaData policy) {
-		Optional<PolicyMetaData> temp=policyMetaTypeRepo.findById(id);
-		if(temp.isPresent())
-		{
-			PolicyMetaData existingPolicy=temp.get();
-			existingPolicy.setPolicyNumber(policy.getPolicyNumber());
+		Optional<PolicyMetaData> temp = policyMetaTypeRepo.findById(id);
+		if (temp.isPresent()) {
+			PolicyMetaData existingPolicy = temp.get();
+			// existingPolicy.setPolicyNumber(policy.getPolicyNumber());
 			existingPolicy.setCreatedAt(policy.getCreatedAt());
-			existingPolicy.setEndDate(policy.getEndDate());
+			// existingPolicy.setEndDate(policy.getEndDate());
 			return policyMetaTypeRepo.save(existingPolicy);
-		}
-		else
-		{
+		} else {
 			return null;
 		}
 	}
 
-
 	@Override
 	public String deletePolicy(int id) {
-		if(policyMetaTypeRepo.findById(id).isPresent())
-		{
-		policyMetaTypeRepo.deleteById(id);
-		return "Policy Deleted Successfully";
-		}
-		else
-		{
+		if (policyMetaTypeRepo.findById(id).isPresent()) {
+			policyMetaTypeRepo.deleteById(id);
+			return "Policy Deleted Successfully";
+		} else {
 			return "Policy Not Found";
 		}
 	}
 
-
 	@Override
 	public float check_EMI(int id) {
-		Optional<PolicyMetaData>data =policyMetaTypeRepo.findById(id);
+		Optional<PolicyMetaData> data = policyMetaTypeRepo.findById(id);
 
-		if(data.isPresent())
-		{
+		if (data.isPresent()) {
 			PolicyMetaData policy = data.get();
-			float amount = policy. getAmount();
-			int year= policy.getTenure();
+			float amount = policy.getAmount();
+			int year = policy.getTenure();
 
-			float emi =amount/(year*2);
+			float emi = amount / (year * 2);
 			return emi;
-		}
-		else
-		{
+		} else {
 			return 0;
 		}
 	}
-
-
-
 
 }
