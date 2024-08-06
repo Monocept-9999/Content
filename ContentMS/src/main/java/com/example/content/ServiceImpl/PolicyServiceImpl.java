@@ -199,10 +199,6 @@ public class PolicyServiceImpl implements PolicyService {
 		return policies;
 	}
 
-//	@Override
-//	public Optional<PolicyMetaData> getPolicyById(Long id) {
-//		return Optional.empty();
-//	}
 
 
 	@Override
@@ -226,9 +222,12 @@ public class PolicyServiceImpl implements PolicyService {
 		if(temp.isPresent())
 		{
 			PolicyMetaData existingPolicy=temp.get();
+			existingPolicy.setUserId(policy.getUserId());
 			existingPolicy.setPolicyNumber(policy.getPolicyNumber());
-			existingPolicy.setCreatedAt(policy.getCreatedAt());
+			existingPolicy.setAmount(policy.getAmount());
+			existingPolicy.setTenure(policy.getTenure());
 			existingPolicy.setEndDate(policy.getEndDate());
+			existingPolicy.setUpdatedAt(policy.getUpdatedAt());
 			return policyMetaTypeRepo.save(existingPolicy);
 		}
 		else
@@ -251,26 +250,25 @@ public class PolicyServiceImpl implements PolicyService {
 		}
 	}
 
-//
-//	@Override
-//	public float check_EMI(int id) {
-//		Optional<PolicyMetaData>data =policyMetaTypeRepo.findById(id);
-//
-//		if(data.isPresent())
-//		{
-//			PolicyMetaData policy = data.get();
-//			float amount = policy. getAmount();
-//			int year= policy.getTenure();
-//
-//			float emi =amount/(year*12);
-//			return emi;
-//		}
-//		else
-//		{
-//			return 0;
-//		}
-//	}
 
+	@Override
+	public float check_EMI(int id) {
+		Optional<PolicyMetaData>data =policyMetaTypeRepo.findById(id);
+
+		if(data.isPresent())
+		{
+			PolicyMetaData policy = data.get();
+			float amount = policy. getAmount();
+			int year= policy.getTenure();
+
+			float emi =amount/(year*2);
+			return emi;
+		}
+		else
+		{
+			return 0;
+		}
+	}
 
 
 
