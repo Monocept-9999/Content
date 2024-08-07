@@ -27,6 +27,7 @@ public class PolicyMetaData {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int  policyId;
 
+	private int userId;
 	@NotBlank(message = "Policy Number is mandatory")
 	@Size(min = 2, max = 50, message = "Policy Number should be between 2 and 50 characters")
 	private String policyNumber;
